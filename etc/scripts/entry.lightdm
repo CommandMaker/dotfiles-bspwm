@@ -1,0 +1,4 @@
+#!/bin/bash
+# Put here all the scripts you want to exec before lightdm show interface (when X11 starts)
+# Set the .lightdm extension to reconize them from the others
+/etc/scripts/keyboard.lightdm

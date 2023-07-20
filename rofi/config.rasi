@@ -1,0 +1,75 @@
+configuration {
+    modi: "window,drun,ssh,combi";
+    font: "JetBrainsMono Nerd Font 14";
+    case-sensitive: false;
+    icon-theme: "oomox-Tokyonight-Dark";
+    show-icons: true;
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    display-drun: "ﬓ - Apps";
+    display-run: " - Commande";
+    transparency: "real";
+}
+
+@theme "tokyonight"
+
+element-text, mode-switcher {
+    background-color: inherit;
+    text-color: inherit;
+}
+
+element-icon {
+    background-color: inherit;
+    size: 30px; 
+}
+
+window {
+    background-color: rgba(26, 27, 38, 0.8);
+    text-color: @fg-col;
+    height: 720px;
+    border-radius: 5px;
+    border: 4px;
+    border-color: #6183bb;
+}
+
+mainbox {
+    background-color: @bg-col;
+    text-color: @fg-col;
+}
+
+listview {
+    background-color: @bg-col;
+    text-color: @fg-col;
+}
+
+element {
+    background-color: @bg-col;
+    text-color: @fg-col;
+    padding: 10px 15px;
+}
+
+element selected {
+    background-color: @selected-col;
+    text-color: @fg-col2;
+}
+
+inputbar {
+    children: [prompt, entry];
+    background-color: @bg-col;
+    margin: 20px 0px 20px 20px;
+}
+
+entry {
+    background-color: @bg-col;
+    text-color: @fg-col;
+    margin: 5px 0 0 10px;
+}
+
+prompt {
+    background-color: @blue;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-color: #ffffff;
+    font-size: 10px;
+}

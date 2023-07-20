@@ -1,0 +1,8 @@
+[16:21:14 2023-02-12] FETCHING Version 2.16.1
+[16:21:14 2023-02-12] DOWNLOADING https://github.com/spicetify/spicetify-cli/releases/download/v2.16.1/spicetify-2.16.1-linux-amd64.tar.gz
+[16:21:16 2023-02-12] EXTRACTING /home/command_maker/.spicetify/spicetify.tar.gz
+[16:21:16 2023-02-12] SETTING EXECUTABLE PERMISSIONS TO /home/command_maker/.spicetify/spicetify
+[16:21:16 2023-02-12] REMOVING /home/command_maker/.spicetify/spicetify.tar.gz
+[16:21:16 2023-02-12] spicetify path already set in /home/command_maker/.config/fish/config.fish, continuing...
+[16:21:16 2023-02-12] spicetify v2.16.1 was installed successfully to /home/command_maker/.spicetify
+[16:21:16 2023-02-12] Run 'spicetify --help' to get started

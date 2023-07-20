@@ -1,0 +1,148 @@
+#!/bin/bash
+
+# Exit if any command fail
+set -e
+
+RED="\e[31m"
+BLUE="\e[34m"
+MAGENTA="\e[35m"
+GREEN="\e[32m"
+RESET="\e[0m"
+TASK_ARROW="${BLUE}==>${RESET}"
+SUBTASK_ARROW="${MAGENTA}->${RESET}"
+
+checkOrInstallYay () {
+    echo -e "${TASK_ARROW} Checking yay presence"
+
+    if ! hash yay &> /dev/null; then
+        if ! [ $(id -u) = 0 ]; then
+            echo -e -e "${TASK_ARROW} Getting permissions"
+            sudo echo -e ""
+            echo -e "${TASK_ARROW} Installing yay"
+
+            echo -e "  ${SUBTASK_ARROW} Installing dependencies"
+            sudo pacman -S --noconfirm --needed git base-devel
+
+            echo -e ""
+            echo -e "  ${SUBTASK_ARROW} Cloning repository"
+            YAY_BUILD=$(mktemp -d)
+            git clone https://aur.archlinux.org/yay-bin.git $YAY_BUILD
+            
+            echo -e "  ${SUBTASK_ARROW} Building yay"
+            cd $YAY_BUILD
+            makepkg -si
+
+            echo -e "  ${SUBTASK_ARROW} Removing temp folders"
+            rm -r $YAY_BUILD
+        fi
+    else
+        echo "Yay is present ! Nice !"
+    fi
+}
+
+installPackages () {
+    echo -e "${TASK_ARROW} Installing packages in .packageslist"
+    echo -e "  ${SUBTASK_ARROW} Getting packages to install"
+
+    PACKAGES=""
+
+    while IFS= read -r line; do
+        PACKAGES="${PACKAGES} ${line}"
+    done < "./.packagelist"
+
+    echo -e "  ${SUBTASK_ARROW} Installing packages using yay"
+    yay -Sy --needed $PACKAGES
+}
+
+linkConfiguration () {
+    echo -e "${TASK_ARROW} Linking configuration"
+    CONFIG_TO_LINK=("bspwm" "fish" "neofetch" "picom" "polybar" "rofi" "sxhkd" "dunst")
+
+    for e in ${CONFIG_TO_LINK[@]}; do
+        if ! [ -h ~/.config/$e ]; then
+            echo -e "  ${SUBTASK_ARROW} Linking ${e} config"
+            ln -sf $(pwd)/$e ~/.config/$e
+        fi
+    done
+
+    FILES_TO_LINK=(".Xmodmap" ".Xresources")
+
+    for e in ${FILES_TO_LINK[@]}; do
+        if ! [ -h ~/$e ]; then
+            echo -e "  ${SUBTASK_ARROW} Linking ${e} script"
+            ln -sf $(pwd)/user-dir/$e ~/$e
+        fi
+    done
+
+    ETC_TO_LINK=("scripts")
+
+    for e in ${ETC_TO_LINK[@]}; do
+        if ! [ -h /etc/$e ]; then
+            echo -e "  ${SUBTASK_ARROW} Linking ${e} config in /etc"
+            sudo ln -sf $(pwd)/etc/$e /etc/$e
+        fi
+    done
+
+    xrdb ~/.Xresources
+
+    echo -e "${GREEN}Configuration linked${RESET}"
+}
+
+spotifyGPUPatch () {
+    # Sometimes, Spotify crash with the error "GPU process is not usable. Goodbye !"
+    # To fix it you must add --no-zygote parameters to startup
+
+    if ! [ -f /usr/share/applications/spotify.desktop ]; then
+        return
+    fi
+
+    echo -e "${TASK_ARROW} Patching Spotify to prevent GPU crash"
+    LINE_NUMBER=$(cat /usr/share/applications/spotify.desktop | grep -n '^Exec=' | awk -F ":" '{print $1}')
+    sudo sed -i '7s/spotify/&\ --no-zygote/' /usr/share/applications/spotify.desktop
+    echo -e "${GREEN}Spotify successfully patched${RESET}"
+}
+
+tweakSpotify () {
+    # Apply Spicetify
+
+    echo -e "${TASK_ARROW} Tweaking Spotify"
+    echo -e "  ${SUBTASK_ARROW} Installing Spicetify"
+    
+    curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh | sh
+
+    echo -e "  ${SUBTASK_ARROW} Getting permissions on /opt/spotify"
+    sudo chgrp $(id -g) /opt/spotify
+    sudo chgrp -R $(id -g) /opt/spotify/Apps
+    sudo chmod 775 /opt/spotify
+    sudo chmod 775 -R /opt/spotify/Apps
+
+    echo -e "  ${SUBTASK_ARROW} Applying themes and extensions"
+    spicetify backup
+    spicetify config current_theme tokyonight
+    spicetify config inject_css 1 replace_colors 1 overwrite_assets 1
+    spicetify config extensions playlist-icons.js
+    spicetify config extensions adblock.js
+    spicetify apply
+
+    echo -e "${GREEN}Spotify successfully tweaked${RESET}"
+}
+
+# Control script actions here. Modifiable as wish !
+start () {
+    echo -e "${RED}WARNING !${RESET} Read the README.MD before launching the script !"
+    echo -e "${RED}WARNING !${RESET}Be sure that the Chaotic AUR is installed before to run the script !"
+    echo "Do you want to continue ? [Y/n] "
+    read a
+
+    if ! [ "$a" == "y" ] || [ "$a" == "Y" ]; then
+        return
+    fi
+    
+    #checkOrInstallYay
+    #installPackages
+    #linkConfiguration
+    #spotifyGPUPatch
+    tweakSpotify
+}
+
+start

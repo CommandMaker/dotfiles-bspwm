@@ -1,0 +1,3 @@
+#!/bin/bash
+xmodmap /home/command_maker/.Xmodmap
+numlockx on

@@ -52,7 +52,11 @@ super + g
 
 # set the window state
 super + {t,shift + t,shift + f,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+	bspc node -t {tiled && polybar-msg cmd toggle,pseudo_tiled,floating,fullscreen && polybar-msg cmd toggle}
+
+# set the window fullscreen
+#super + f
+#	polybar-msg cmd toggle && bspc node -t fullscreen
 
 # set the node flags
 super + ctrl + {m,x,y,z}
@@ -89,7 +93,7 @@ super + {_,shift + }{ampersand,eacute,quotedbl,apostrophe,parenleft,minus,egrave
 #
 
 # preselect the direction
-super + ctrl + {h,j,k,l}
+super + ctrl + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
 
 # preselect the ratio

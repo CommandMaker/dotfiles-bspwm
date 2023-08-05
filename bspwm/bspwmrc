@@ -3,7 +3,10 @@
 pgrep -x sxhkd > /dev/null || sxhkd &
 
 #feh --bg-fill ~/Images/wallpaper_alice.jpg
-feh --bg-fill ~/Images/wallpaper_alice.jpg --bg-fill ~/Images/oshi\ no\ ko\ wallpaper3.jpg
+#feh --bg-fill ~/Images/wallpaper_alice.jpg --bg-fill ~/Images/oshi\ no\ ko\ wallpaper3.jpg
+killall picom;picom &
+killall komorebi;komorebi &
+
 ~/.config/polybar/launch-bars.sh
 
 xsetroot -cursor_name Bibata-Modern-Ice

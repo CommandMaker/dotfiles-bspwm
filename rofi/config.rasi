@@ -28,7 +28,7 @@ window {
     background-color: rgba(26, 27, 38, 0.8);
     text-color: @fg-col;
     height: 720px;
-    border-radius: 5px;
+    border-radius: 16px;
     border: 4px;
     border-color: #6183bb;
 }

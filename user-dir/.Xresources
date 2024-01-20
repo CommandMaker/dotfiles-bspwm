@@ -64,5 +64,5 @@ URxvt.matcher.button: 1
 ! URxvt config ends
 
 Xcursor.theme: Bibata-Modern-Ice
-
+Xft.dpi: 96
 

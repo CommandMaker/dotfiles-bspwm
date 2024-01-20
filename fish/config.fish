@@ -93,7 +93,7 @@ alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pac
 # Custom aliases
 alias phpbc="php bin/console"
 alias cls="clear"
-alias !s="sudo"
+alias !s="sudo -Es"
 alias dc="docker-compose"
 alias de="USER_ID=(id -u) GROUP_ID=(id -g) docker-compose exec"
 

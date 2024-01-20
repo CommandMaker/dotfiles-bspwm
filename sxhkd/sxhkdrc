@@ -6,6 +6,9 @@
 super + Return
 	urxvt
 
+super + shift + Return
+    alacritty
+
 # program launcher
 super + d
 	rofi -show drun
@@ -31,7 +34,7 @@ super + alt + {q,r}
 	bspc {quit,wm -r}
 
 # close and kill
-super + shift + q 
+super + shift + q
 	bspc node -c
 
 # alternate between the tiled and monocle layout
@@ -52,7 +55,7 @@ super + g
 
 # set the window state
 super + {t,shift + t,shift + f,f}
-	bspc node -t {tiled && polybar-msg cmd toggle,pseudo_tiled,floating,fullscreen && polybar-msg cmd toggle}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the window fullscreen
 #super + f
@@ -69,6 +72,9 @@ super + ctrl + {m,x,y,z}
 # focus the node in the given direction
 super + {_,shift + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
+
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
 super + {p,b,comma,period}
@@ -96,6 +102,9 @@ super + {_,shift + }{ampersand,eacute,quotedbl,apostrophe,parenleft,minus,egrave
 super + ctrl + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
 
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
 # preselect the ratio
 super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
@@ -120,16 +129,16 @@ super + alt + {h,j,k,l}
 #super + ctrl + shift + {Right,Up,Down,Left}
 #	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
-super + ctrl + shift + Left
+super + ctrl + shift + h 
 	/bin/sh ~/.config/bspwm/resize/shrinkx.sh
 
-super + ctrl + shift + Right 
+super + ctrl + shift + l 
 	/bin/sh ~/.config/bspwm/resize/expandx.sh
 
-super + ctrl + shift + Down 
+super + ctrl + shift + k 
 	/bin/sh ~/.config/bspwm/resize/shrinky.sh
 
-super + ctrl + shift + Up
+super + ctrl + shift + j
 	/bin/sh ~/.config/bspwm/resize/expandy.sh
 
 # Volume management with keyboard
